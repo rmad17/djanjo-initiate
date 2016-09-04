@@ -10,25 +10,32 @@ project like creating a .gitignore, local_settings.py, \
 local_settings_sample.py with required data
 """
 import os
-import sys
+import click
 
-# Arguments
-base_dir = sys.argv[1]
 
-# Database Config
-db_engine = ''
-db_name = ''
-db_user = ''
-db_password = ''
-db_host = ''
-db_port = ''
-db_test = ''
-
-# General Config
-DEBUG = True
-if not base_dir:
-    base_dir = os.path.dirname(os.path.abspath(__file__))
-    base_dir = base_dir.split("/")[-1]
+@click.command()
+@click.argument('projectname')
+@click.option('--dbengine', default='django.db.backends.sqlite3',
+              help='name of your database engine')
+@click.option('--dbname', default='mydatabase', help='name of your database')
+@click.option('--user', default='', help='username of your database')
+@click.option('--password', default='', help='password to your database')
+@click.option('--host', default='127.0.0.1', help='hostname of your database')
+@click.option('--port', default='', help='port of your database')
+@click.option('--testdb', default='mydatabasetest',
+              help='Name of your test database')
+@click.option('--debug', default=True, help='DEBUG value')
+def generate(projectname, dbengine, dbname, user, password, host, port,
+             testdb, debug):
+    if os.path.exists(projectname + "/settings.py"):
+        create_gitignore()
+        # local_settings_sample.py
+        create_local_settings(projectname)
+        # local_settings.py
+        create_local_settings(projectname, 'local_settings.py', dbengine,
+                              dbname, user, password, host, testdb, port,
+                              debug, get_secret_key(projectname))
+        update_settings(projectname)
 
 
 def create_gitignore():
@@ -50,7 +57,7 @@ def create_gitignore():
         gitignore.write(gitignore_content)
 
 
-def get_secret_key():
+def get_secret_key(base_dir):
     SECRET_KEY = ""
     with open(base_dir + "/settings.py", "r") as settings:
         print("Searching for SECRET_KEY in settings.py ...")
@@ -62,9 +69,10 @@ def get_secret_key():
     return ''
 
 
-def create_local_settings(file_name='local_settings_sample.py', db_engine='',
-                          db_name='', db_user='', db_password='', db_host='',
-                          db_test='', db_port='', DEBUG=True, SECRET_KEY=''):
+def create_local_settings(base_dir, file_name='local_settings_sample.py',
+                          db_engine='', db_name='', db_user='', db_password='',
+                          db_host='', db_test='', db_port='', DEBUG=True,
+                          SECRET_KEY=''):
     with open(base_dir + "/" + file_name, "w+") as \
                                         local_settings:
         print("Generating " + file_name + " ...")
@@ -92,7 +100,7 @@ def create_local_settings(file_name='local_settings_sample.py', db_engine='',
         local_settings.write(local_settings_content)
 
 
-def update_settings():
+def update_settings(base_dir):
     print("Updating settings ...")
     with open(base_dir + "/settings.py", "a") as settings:
         append_content = "\n" + \
@@ -103,12 +111,5 @@ def update_settings():
         settings.write(append_content)
 
 
-if __name__ == "__main__" and os.path.exists(base_dir + "/settings.py"):
-    create_gitignore()
-    # local_settings_sample.py
-    create_local_settings()
-    # local_settings.py
-    create_local_settings('local_settings.py', db_engine, db_name, db_user,
-                          db_password, db_host, db_test, db_port, DEBUG,
-                          get_secret_key())
-    update_settings()
+if __name__ == "__main__":
+    generate()
