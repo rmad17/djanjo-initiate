@@ -25,7 +25,7 @@ import click
 @click.option('--testdb', default='mydatabasetest',
               help='Name of your test database')
 @click.option('--debug', default=True, help='DEBUG value')
-def generate(projectname, dbengine, dbname, user, password, host, port,
+def initiate(projectname, dbengine, dbname, user, password, host, port,
              testdb, debug):
     if os.path.exists(projectname + "/settings.py"):
         create_gitignore()
