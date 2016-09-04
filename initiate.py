@@ -109,7 +109,3 @@ def update_settings(base_dir):
             "except ImportError as e:" + "\n" + \
             "    print('Error:', e.msg)"
         settings.write(append_content)
-
-
-if __name__ == "__main__":
-    generate()
