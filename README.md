@@ -1,15 +1,20 @@
 # djanjo-initiate
 Automate creating of .gitignore and local_settings when creating a new django project
 
+## Installation 
+
+[sudo] `pip install django-initiate`
+
 ## Usage
-The script takes an argument which is the name of the django project. It has to be executed from inside the same directory as 
-manage.py. You can also just copy the script that directory and run without any arguments. It will still run fine.
+`initiate <your_django_project_name>`
 
-*if script is located in some folder and executing from django project folder*
-
-`python /path/to/file/generate.py <django-project-name>` 
+For options to add arguments
+`initiate --help`
 
 
-*if script is located in the django project folder*
+## Tests
+None yet. Feel free to open a PR if you want to. 
 
-`python generate.py ` 
+
+## Everything else
+Create issues, I'll check them.
