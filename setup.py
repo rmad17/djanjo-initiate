@@ -8,7 +8,7 @@ from setuptools import setup
 
 setup(
     name='django-initiate',
-    version='0.1',
+    version='0.1.1',
     description='Configure .gitignore and local_settings for a django project',
     author='Sourav Basu',
     author_email='souravbasu17@gmail.com',
