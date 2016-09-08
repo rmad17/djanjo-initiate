@@ -105,7 +105,7 @@ def update_settings(base_dir):
     with open(base_dir + "/settings.py", "a") as settings:
         append_content = "\n" + \
             "try:" + "\n" + \
-            "    from local_settings import SECRET_KEY, DATABASES, DEBUG  # noqa" + "\n" + \
+            "    from .local_settings import SECRET_KEY, DATABASES, DEBUG  # noqa" + "\n" + \
             "except ImportError as e:" + "\n" + \
             "    print('Error:', e.msg)"
         settings.write(append_content)
