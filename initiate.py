@@ -17,12 +17,12 @@ import click
 @click.argument('projectname')
 @click.option('--dbengine', default='django.db.backends.sqlite3',
               help='name of your database engine')
-@click.option('--dbname', default='mydatabase', help='name of your database')
+@click.option('--dbname', default='mydatabase.sqlite3', help='name of your database')
 @click.option('--user', default='', help='username of your database')
 @click.option('--password', default='', help='password to your database')
 @click.option('--host', default='127.0.0.1', help='hostname of your database')
 @click.option('--port', default='', help='port of your database')
-@click.option('--testdb', default='mydatabasetest',
+@click.option('--testdb', default='mydatabasetest.sqlite3',
               help='Name of your test database')
 @click.option('--debug', default=True, help='DEBUG value')
 def initiate(projectname, dbengine, dbname, user, password, host, port,
